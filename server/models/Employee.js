@@ -10,7 +10,7 @@ const employeeSchema=mongoose.Schema({
     Attendance:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"Attendance"
+            ref:"attendance"
         }
     ]
 })
