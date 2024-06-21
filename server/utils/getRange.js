@@ -15,6 +15,6 @@ exports.getRange = (highDate, lowDate) => {
   let numDays = Math.floor(difference / (1000 * 60 * 60 * 24)); //(ms * sec*min*hr)
   if (dateParts1[2] % 4 == 0 || dateParts1[2] % 4 == 0) numDays++;
   console.log("range of given dates", numDays);
-  //if(numDays===0) numDays=1;
-  return numDays;
+  
+  return numDays>1?numDays+1:numDays
 };
