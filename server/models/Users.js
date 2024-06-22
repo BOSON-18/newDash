@@ -1,14 +1,14 @@
 const mongoose=require("mongoose");
 
-const userSchema=mongoose.Schema({
+const userSchema=new mongoose.Schema({
     loginId:{
         type:String,
         required:true,
         trim:true
     },
     password:{
-        typr:String,
-        requiredtrue
+        type:String,
+        required:true
     }
 })
 

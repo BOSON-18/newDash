@@ -42,25 +42,57 @@ exports.getData = async (req, res) => {
           ],
           TotalPresent: [
             {
-              $unwind: "$attendance",
+              $unwind: "$attendance"
             },
             {
               $match: {
                 $and: [
                   {
                     "attendance.timestamp": {
-                      $lte: highDate,
-                    },
+                      $lte:  highDate
+                    }
                   },
                   {
                     "attendance.timestamp": {
-                      $gte: lowDate,
-                    },
-                  },
-                ],
-              },
+                      $gte:  lowDate
+                    }
+                  }
+                ]
+              }
             },
-         w
+            {
+              $group: {
+                _id: "$attendance.date",
+                totalOnDay: {
+                  $sum: 1
+                }
+              }
+            },
+            {
+              $group: {
+                _id: null,
+                totalOfPresent: {
+                  $sum: "$totalOnDay"
+                },
+                totalDates: {
+                  $sum: 1
+                }
+              }
+            },
+            {
+              $project: {
+                _id: 0,
+                TotalPresent: {
+                  $divide: [
+                    "$totalOfPresent",
+                  //   "$totalDates"
+                  range
+                  ]
+                },
+                Range: range,
+                totalSwipesIn: "$totalOfPresent"
+              }
+            }
           ],
           DivisionStats: [
             {

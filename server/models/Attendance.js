@@ -1,6 +1,6 @@
 const mongoose=require("mongoose")
 
-const attendanceSchema= mongoose.Schema({
+const attendanceSchema=new mongoose.Schema({
     CCNO:Number,
     date:String,
     inTime:String,
