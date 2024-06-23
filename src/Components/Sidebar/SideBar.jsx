@@ -21,7 +21,7 @@ const SideBar = () => {
 
   const { searchType } = useSelector((state) => state.auth);
   return (
-    <div className='flex flex-col bg-[#F3F5F9] rounded-xl text-gray-700 shadow-2xl p-8 fixed left-5 top-5 gap-y-5 h-[90vh] '>
+    <div className='flex h-[calc(100vh-3.5rem)] px-4 max-w-[240px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10 '>
 
       {/* Tab */}
       <Tab tabData={tabData} setSearchType={setSearchType} searchType={searchType} />

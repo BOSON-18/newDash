@@ -6,7 +6,7 @@ const authSlice= createSlice({
     name:"auth",
     initialState:{
         user:null,
-        token:localStorage.getItem("token")?(JSON.parse(localStorage.getItem("token"))):(null),
+        token:localStorage.getItem("token")?(localStorage.getItem("token")):(null),
         loading:false,
         searchType:"single"
         

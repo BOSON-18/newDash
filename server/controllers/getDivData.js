@@ -1,15 +1,16 @@
 const Employee = require("../models/Employee");
 const { getRange } = require("../utils/getRange");
+const {getRangeMap}=require("../utils/getRangeMap")
 
 const { getTimeStamp } = require("../utils/timeStampConversion");
 
 exports.getDivData = async (req, res) => {
   try {
-    const { divisionName, sectionName } = req.body;
-    let { lowDate, highDate } = req.query.params || req.body;
+   // const { divisionName, sectionName } = req.body;
+    let { lowDate, highDate,divisionName, sectionName } = req.query.params || req.body;
 
     //validation
-    console.log("Divisio0n name:->",divisionName)
+    console.log("Divisio0n name:->",divisionName,"Section Name->",sectionName)
 
     if (!lowDate || !highDate || !divisionName) {
       return res.status(400).json({
@@ -32,10 +33,14 @@ exports.getDivData = async (req, res) => {
     console.log("Prinitng TimeStamped Dates", lowDate, highDate);
     const pipeline =[
         {
-          $match: {
-            "category.division": {
-              $eq: divisionName
-            }
+            $match: {
+              "category.division": divisionName,
+              ...(sectionName ? { "category.section": sectionName } : {}),
+            // $or: [
+            //   {"category.division":divisionName},
+            //   { "category.section": sectionName },
+            //   { "category.section": { $exists: false } }
+            // ]
           }
         },
         {
@@ -101,7 +106,7 @@ exports.getDivData = async (req, res) => {
                     ]
                   },
                   Range: range,
-                  totalSwipesIn: "$totalOfPresent"
+                  totalSwipesIn: "$totalOfPresent" 
                 }
               }
             ],
@@ -109,8 +114,8 @@ exports.getDivData = async (req, res) => {
               {
                 $match: {
                   "attendance.timestamp": {
-                    $gte: "24-01-24T00:00:00IST",
-                    $lte: "24-01-25T23:59:59IST"
+                    $gte: lowDate,
+                    $lte:highDate
                   }
                 }
               },
@@ -125,9 +130,10 @@ exports.getDivData = async (req, res) => {
               {
                 $match: {
                   "attendance.timestamp": {
-                    $gte: "24-01-24T00:00:00IST",
-                    $lte: "24-01-25T23:59:59IST"
-                  }
+                    $gte: lowDate,
+                    $lte:highDate
+                  },
+                 
                 }
               },
               {
@@ -160,6 +166,11 @@ exports.getDivData = async (req, res) => {
     
 
     console.log("Returning Division Search Data-> ", result);
+    const inTimeArr = result[0].InTimeSwipes;
+    console.log("Destructiong", inTimeArr);
+    const timeRangeMap = getRangeMap(inTimeArr, range);
+    console.log("timeRange map", timeRangeMap);
+    result[0].InTimeSwipes = timeRangeMap;
 
     return res.status(200).json({
       success: true,

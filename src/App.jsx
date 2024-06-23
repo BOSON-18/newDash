@@ -2,10 +2,14 @@ import { Routes, Route } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import PrivateRoutes from "./Components/PrivateRoutes/PrivateRoutes";
 import Dashboard from "./Components/Dashboard/Dashboard";
+import { Chart, registerables } from 'chart.js';
 
 const App = () => {
+ 
+
+  Chart.register(...registerables);
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 w-screen">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 max-w-screen">
       <Routes>
         <Route path="/" element={<Login />} />
         

@@ -20,6 +20,7 @@ export const login=async(loginId,password,navigate,dispatch)=>{
        console.log(response)
 
        dispatch(setToken(response?.data?.token))
+       localStorage.setItem("token",response?.data?.token)
 
        toast.success("Login Success")
 
