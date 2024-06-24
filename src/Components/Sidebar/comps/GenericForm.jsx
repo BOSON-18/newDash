@@ -65,9 +65,9 @@ const GenericForm = () => {
       : await getData(lowDate, highDate, data.divisionName, data.sectionName);
     console.log("Printing response", response);
     dispatch(setTotalEmployees(response?.Total[0]?.TotalEmployees));
-    dispatch(setTotalPresent(response?.TotalPresent[0]?.TotalPresent));
+    dispatch(setTotalPresent(response?.TotalPresent[0]?.TotalPresent||0));
     dispatch(setInTimeSwipes(response?.InTimeSwipes));
-    dispatch(setDivisionStats(response?.DivisionStats));
+    dispatch(setDivisionStats(response?.DivisionStats||0));
 
     dispatch(setLoading(false))
   };

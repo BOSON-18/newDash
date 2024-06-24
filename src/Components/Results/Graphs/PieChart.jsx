@@ -14,8 +14,8 @@ const PieChart = ({TotalEmployees,TotalPresent,state}) => {
     const cards = [
         { title:'Total Employees', value: TotalEmployees, color: '#63b3ed',icon:<FaPeopleGroup/> ,iconColor:"#63b3ed"},
         { title: state==="single"? 'Checked In':"Avg Present", value: TotalPresent, color: '#48bb78',icon:<AiFillCheckSquare/>,iconColor:'#48bb78' },
-        { title: state==="single"?'Checked Out':"Avg Check Out\'s", value: TotalPresent, color: '#718096',icon:<RxExit/>,iconColor:'#4a5568' },
-        { title: state==="single"?'Leave/Absent':'Avg Absent', value: TotalEmployees - TotalPresent, color: '#f56565',icon:<IoIosWarning/>,iconColor:'#f56565' },
+        // { title: state==="single"?'Checked Out':"Avg Check Out\'s", value: TotalPresent, color: '#718096',icon:<RxExit/>,iconColor:'#4a5568' },
+        { title: state==="single"?'Leave/Absent':'Avg Leave', value: TotalEmployees - TotalPresent, color: '#f56565',icon:<IoIosWarning/>,iconColor:'#f56565' },
       ];
 
     const chartData = {
@@ -50,14 +50,14 @@ const PieChart = ({TotalEmployees,TotalPresent,state}) => {
     return (
         <div className='flex gap-x-3 w-full' >
           <div >
-            <div className='h-full w-[200px] bg-[#F3F5F9] items-center justify-center flex flex-col p-4 rounded-xl'>
+            <div className='h-[300px] w-[800px] bg-gray-50 items-center justify-center flex flex-col p-4 rounded-xl'>
             { loading? <div className=" flex left-1/2 h-full top-10 justify-center items-center  mx-auto"><PacmanLoader color="#6358DC" /></div>:
     
-              <Doughnut data={chartData} options={options}   />
+              <Doughnut data={chartData} options={options}    />
             }
             </div>
           </div>
-          <div className='flex w-full gap-x-4  rounded-xl p-3 items-center justify-evenly ' >
+          <div className='flex w-full gap-x-4  rounded-xl  items-center justify-evenly ' >
             {cards.map((card, index) => (
               <InfoCard key={index} title={card.title} value={card.value} color={card.color} icon={card.icon} iconColor={card.iconColor} />
             ))}

@@ -17,7 +17,7 @@ const Results = () => {
   }, [loading]);
   return (
     <div className="flex flex-col gap-y-5 ">
-    {(TotalEmployees > 0 && TotalPresent >= 0) ? (
+    {(TotalEmployees >= 0 && TotalPresent >= 0) ? (
       <>
         {/* Pie Chart section */}
         <div className="bg-gray-200 rounded-lg shadow-md p-3">
@@ -26,7 +26,7 @@ const Results = () => {
 
         {/* Bar Graph Division */}
         <div className="bg-gray-200 rounded-lg  shadow-md p-3">
-          <BarGraph divisionData={DivisionStats} state={uiState} />
+          <BarGraph divisionData={DivisionStats || 0} state={uiState} />
         </div>
 
         {/* InTime Stats */}
