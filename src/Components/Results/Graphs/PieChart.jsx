@@ -22,7 +22,7 @@ const PieChart = ({TotalEmployees,TotalPresent,state}) => {
         labels: state==="single"? ['Total Present', 'Absent/Leave']:['Average Present',"Average Leave"],
         datasets: [
           {
-            data: [TotalPresent, TotalEmployees - TotalPresent],
+            data: [Math.ceil(TotalPresent), Math.ceil(TotalEmployees - TotalPresent)],
             backgroundColor: ['#63b3ed', '#f56565'],
           },
     
@@ -57,7 +57,7 @@ const PieChart = ({TotalEmployees,TotalPresent,state}) => {
             }
             </div>
           </div>
-          <div className='flex w-full gap-x-4 bg-[#F3F5F9] rounded-xl p-3 items-center justify-evenly ' >
+          <div className='flex w-full gap-x-4  rounded-xl p-3 items-center justify-evenly ' >
             {cards.map((card, index) => (
               <InfoCard key={index} title={card.title} value={card.value} color={card.color} icon={card.icon} iconColor={card.iconColor} />
             ))}

@@ -6,7 +6,7 @@ export function InfoCard({ title, value, color, icon, iconColor }) {
   return (
     <div className="bg-gray-50  rounded-2xl w-full h-[220px]" >
     <div className=" flex flex-col gap-y-3 ">
-      <div className="text-4xl p-2 rounded-t-xl "  style={{ color: iconColor , backgroundColor:backgroundColor }}>
+      <div className="text-4xl p-2 rounded-t-zx2xl "  style={{ color: iconColor , backgroundColor:backgroundColor }}>
         {icon}
       </div>
       <div className="flex flex-col gap-3 justify-center items-center">

@@ -8,7 +8,7 @@ const Dashboard = () => {
     <div className="realtive flex min-h-[[calc(100ch-3.5rem)] w-full">
     <SideBar />
     <div className="h-[calc(100vh-3.5rem)] w-11/12 overflow-auto overflow-x-hidden">
-      <div className="mx-auto w-11/12  py-10 ">
+      <div className="mx-auto  py-10 px-3 ">
         <Results />
       </div>
     </div>

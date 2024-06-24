@@ -135,7 +135,7 @@ exports.getData = async (req, res) => {
               },
             },
             {
-              $sort: { Avg: -1 },
+              $sort: { TotalPresent: -1 },
             },
           ],
 
