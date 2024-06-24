@@ -162,7 +162,7 @@ exports.getDivData = async (req, res) => {
           }
         }
       ]
-    const result = await Employee.aggregate(pipeline);
+    const result = await Employee.aggregate(pipeline, { allowDiskUse: true });
     
 
     console.log("Returning Division Search Data-> ", result);

@@ -169,7 +169,7 @@ exports.getData = async (req, res) => {
       },
     ];
 
-    const result = await Employee.aggregate(pipeline);
+    const result = await Employee.aggregate(pipeline, { allowDiskUse: true });
 
     console.log("Printing result: ", result);
     const inTimeArr = result[0].InTimeSwipes;
