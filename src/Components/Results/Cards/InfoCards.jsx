@@ -10,7 +10,7 @@ export function InfoCard({ title, value, color, icon, iconColor }) {
         {icon}
       </div>
       <div className="flex flex-col gap-y-8 justify-center items-center">
-      <div className="text-4xl text-balance font-extralight  ">
+      <div className="text-3xl text-balance font-extralight  ">
         {title}
       </div>
      

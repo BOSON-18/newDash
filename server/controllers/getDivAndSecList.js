@@ -11,8 +11,12 @@ exports.fetchLists=async(req,res)=>{
                     division:{$first:"$category.division"},
                     section:{
                         $addToSet:"$category.section"
-                    }
+                    },
+                    
+                      
+                    
                 },
+                
             },
             {
                 $project:{
@@ -20,7 +24,7 @@ exports.fetchLists=async(req,res)=>{
                     division:1,
                     section:1
                 }
-            }
+            },
         ]
 
         const result=await Employee.aggregate(pipeline, { allowDiskUse: true });

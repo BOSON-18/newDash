@@ -38,25 +38,42 @@ console.log(inTimeData)
     };
 
     const options = {
-        maintainAspectRatio: false,
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true
-              }
-            }
-          ]
-        },
-        plugins: {
-          legend: {
-            display: false, 
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Time-Slots',
+            font: {
+            weight: '600', 
+            size:'16'// Semibold
           },
-        },  animation: {
-           easing: 'easeInOutCubic',
-          // delay: 100, 
+          },
         },
-      };
+        y: {
+          title: {
+            display: true,
+            text: 'Total Present',
+            font: {
+              weight: '600', 
+              size:'16'// Semibold
+            },
+          },
+         
+          beginAtZero: true,
+        },
+      },
+      plugins: {
+        legend: {
+          display: true,
+        },
+      },
+      animation: {
+        easing: 'easeInOutCubic',
+        delay: 100,
+      },
+    }
+  
 
     return (
         <div className='bg-[#F3F5F9]  flex flex-col   rounded-xl my-5 gap-y-5'>
@@ -64,7 +81,7 @@ console.log(inTimeData)
           <h1 className='text-2xl font-poppins text-white'>In Time Stats</h1>
         </div>
   
-        <div className='w-full p-5'>
+        <div className='w-full p-3'>
         { loading? <div className=" flex left-1/2 w-full h-[400px] top-10 justify-center items-center  mx-auto"><HashLoader color="#6358DC" /></div>:
 
           <Bar data={Chartdata} height={400} options={options} />

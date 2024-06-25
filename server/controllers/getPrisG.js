@@ -1,4 +1,5 @@
 const Employee = require("../models/Employee");
+const {  getPrisGData } = require("../utils/getMonthlyWDays");
 const { getRange } = require("../utils/getRange");
 const { getTimeStamp } = require("../utils/timeStampConversion");
 
@@ -8,6 +9,7 @@ exports.getPrisG=async(req,res)=>{
     try{
 
         let { lowDate, highDate,divisionName } = req.query.params || req.body;
+        console.log("Pris Info->",lowDate, highDate,divisionName )
 
         if (!lowDate || !highDate || !divisionName) {
             return res.status(400).json({
@@ -31,7 +33,7 @@ exports.getPrisG=async(req,res)=>{
         const pipeline=[
             {
               $match: {
-                "category.division": "Computer Division"
+                "category.division": divisionName
               }
             },
             {
@@ -40,8 +42,8 @@ exports.getPrisG=async(req,res)=>{
             {
               $match: {
                 "attendance.timestamp": {
-                  $gte: "23-04-01T00:00:00IST",
-                  $lte: "24-03-31T23:59:59IST"
+                  $gte: lowDate,
+                  $lte:highDate
                 }
               }
             },
@@ -66,11 +68,16 @@ exports.getPrisG=async(req,res)=>{
           ]
           const result = await Employee.aggregate(pipeline, { allowDiskUse: true });
           
-         // console.log(result);
+          // console.log(result[1]);
+
+          const employees=result;
+
+          const updatedData=getPrisGData(employees);
+          console.log("Updated DATA",updatedData)
           res.status(200).json({
             success:true,
             message:"Will You get PrisG???",
-            data:result
+            data:updatedData
           })
 
     }

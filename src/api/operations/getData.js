@@ -23,6 +23,7 @@ export const getData = async (lowDate, highDate, divisionName, sectionName) => {
     const response = await apiConnector('GET', endpoint, {}, divisionName ? { divisionName } : {}, { params });
 
     console.log(`Printing response for ${divisionName ? "DIV_API" : "GEN_API"}->`, response);
+    
     result = response?.data?.data?.[0] || [];
   } catch (error) {
     console.error("GET DATA API ERROR->", error);

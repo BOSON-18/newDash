@@ -27,6 +27,7 @@ const GenericForm = () => {
   useEffect(() => {
     const categoryFetch = async () => {
       const result = await fetchLists();
+      result.sort((a, b) => a.division.localeCompare(b.division));
       dispatch(setDivisionList(result));
       console.log(result);
     };
@@ -40,10 +41,15 @@ const GenericForm = () => {
     let list = [];
     const findSections = (division) => {
       list = divisionList.filter((item) => item.division === division);
-      console.log(list[0]?.section);
-
-      dispatch(setSectionList(list[0]?.section));
-      console.log(list[0]?.section[1]);
+      const allSections = list.flatMap(division => division.section);
+      
+      // Sort sections alphabetically
+      const sortedSections = allSections.sort((a, b) => a.localeCompare(b));
+      // console.log(sortedSections)
+     // console.log(list[0]?.section);
+      //list[0]?.section.sort((a, b) => a.localeCompare(b));
+      dispatch(setSectionList(sortedSections));
+      // console.log(list[0]?.section[1]);
     };
     console.log("Finding Division in list");
     findSections(division);
@@ -138,7 +144,7 @@ const GenericForm = () => {
               return (
                 <option
                   key={index}
-                  className="text-center"
+                  className="text-left"
                   value={division.division}
                 >
                   {division.division}
@@ -156,7 +162,7 @@ const GenericForm = () => {
                 className="bg-gray-300 p-2 w-full rounded-md shadow-md"
                 {...register("sectionName")}
                 onChange={(e) => {
-                  setSection(e.target.value);
+                  // setSection(e.target.value);
                   console.log(e.target.value);
                 }}
               >
@@ -168,7 +174,7 @@ const GenericForm = () => {
                   sectionList.map((section, index) => {
                     return (
                       <option
-                        className="text-center"
+                        className="text-left"
                         value={section}
                         key={index}
                       >
@@ -181,6 +187,8 @@ const GenericForm = () => {
           )}
         </label>
 
+   
+
         <div className="w-full ">
           <button
             type="submit"
@@ -189,6 +197,8 @@ const GenericForm = () => {
             Submit
           </button>
         </div>
+
+        
       </form>
     </div>
   );

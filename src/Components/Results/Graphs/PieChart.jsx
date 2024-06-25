@@ -50,7 +50,7 @@ const PieChart = ({TotalEmployees,TotalPresent,state}) => {
     return (
         <div className='flex gap-x-3 w-full' >
           <div >
-            <div className='h-[300px] w-[800px] bg-gray-50 items-center justify-center flex flex-col p-4 rounded-xl'>
+            <div className='h-[300px] w-[300px] bg-gray-50 items-center justify-center flex flex-col p-4 rounded-xl'>
             { loading? <div className=" flex left-1/2 h-full top-10 justify-center items-center  mx-auto"><PacmanLoader color="#6358DC" /></div>:
     
               <Doughnut data={chartData} options={options}    />

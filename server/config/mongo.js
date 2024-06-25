@@ -2,7 +2,7 @@ const mongoose=require("mongoose")
 
 exports.connectDB=async()=>{
     try{
-        mongoose.connect("mongodb+srv://deeshankbatra663:Cleverfox18@cluster0.bkfjew1.mongodb.net/RRCAT",{
+        mongoose.connect("mongodb+srv://deeshankbatra663:Cleverfox18@cluster0.bkfjew1.mongodb.net/E_DATA",{
             useNewUrlParser:true,
             useUnifiedTopology:true
         })
