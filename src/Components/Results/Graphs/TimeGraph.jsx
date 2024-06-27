@@ -1,93 +1,114 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 import HashLoader from "react-spinners/PulseLoader";
 
-export const TimeGraph = ({ inTimeData }) => {
+export const TimeGraph = ({ inTimeData,Title }) => {
+    const { loading } = useSelector((state) => state.auth);
+    console.log("Time Graph data->",inTimeData)
 
-    console.log("data of time graph", (inTimeData));
-const {loading} =useSelector((state)=>state.auth)
+    const [selectedData, setSelectedData] = useState(null);
 
-console.log(inTimeData)
-    let labels = [];
-    let newData=[]
-    for(let i=0;i<inTimeData.length;i++){
-        labels.push(inTimeData[i]?.range);
-        newData.push(inTimeData[i]?.count)
-    }
-  
+    const labels = inTimeData.map(item => item.range);
+    const newData = inTimeData.map(item => item.count);
 
     const generateRandomColors = (numData) => {
         const colors = [];
         for (let i = 0; i < numData; i++) {
-          const color = `rgba(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},0.7)`
-    
-          colors.push(color);
+            const color = `rgba(${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},${Math.floor(Math.random() * 256)},0.7)`
+            colors.push(color);
         }
-        return colors
-      }
-
-    const Chartdata = {
-        labels: labels,
-        datasets: [{
-            label: "In Time Stats",
-            data: newData,
-            backgroundColor: generateRandomColors( Object.values(newData).length)
-          }
-          ]
-    };
-
+        return colors;
+    }
+    
+    const handleBarClick = (event, elements) => {
+        if (elements.length > 0) {
+            const clickedIndex = elements[0].index;
+            setSelectedData(inTimeData[clickedIndex]?.info || null);
+        } else {
+            setSelectedData(null); // Close popover if clicked outside bars
+        }
+    }
     const options = {
-      maintainAspectRatio: false,
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Time-Slots',
-            font: {
-            weight: '600', 
-            size:'16'// Semibold
-          },
-          },
-        },
-        y: {
-          title: {
-            display: true,
-            text: 'Total Present',
-            font: {
-              weight: '600', 
-              size:'16'// Semibold
+        maintainAspectRatio: false,
+        onClick: handleBarClick,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text:Title,
+              font: {
+                weight: '600',
+                size:'16' // Semibold
+              },
             },
           },
-         
-          beginAtZero: true,
+          y: {
+            title: {
+              display: true,
+              text: 'Total Swipes',
+              font: {
+                weight: '600', 
+                size:'16'// Semibold
+              },
+            },
+            beginAtZero: true,
+          },
         },
-      },
-      plugins: {
-        legend: {
-          display: true,
+        plugins: {
+          legend: {
+            display: true,
+          },
         },
-      },
-      animation: {
-        easing: 'easeInOutCubic',
-        delay: 100,
-      },
-    }
-  
+        animation: {
+          easing: 'easeInOutCubic',
+          delay: 100,
+        },
+      };
+
 
     return (
-        <div className='bg-[#F3F5F9]  flex flex-col   rounded-xl my-5 gap-y-5'>
-        <div className='bg-[#63b3ed] opacity-80 rounded-t-xl  p-5 text-center'>
-          <h1 className='text-2xl font-poppins text-white'>In Time Stats</h1>
-        </div>
-  
-        <div className='w-full p-3'>
-        { loading? <div className=" flex left-1/2 w-full h-[400px] top-10 justify-center items-center  mx-auto"><HashLoader color="#6358DC" /></div>:
+        <div className='bg-gray-100 rounded-xl my-5'>
+            <div className='bg-blue-500 bg-opacity-80 rounded-t-xl p-5 text-center'>
+                <h1 className='text-2xl font-bold text-white'>{Title}</h1>
+            </div>
 
-          <Bar data={Chartdata} height={400} options={options} />
-          
-        }</div>
-  
-      </div>
+            <div className='p-3'>
+                {loading ?
+                    <div className="flex justify-center items-center h-96">
+                        <HashLoader color="#6358DC" />
+                    </div> :
+                    <React.Fragment>
+                        <Bar data={{
+                            labels: labels,
+                            datasets: [{
+                                label: Title,
+                                data: newData,
+                                backgroundColor: generateRandomColors(newData.length)
+                            }]
+                        }} height={400} options={options} />
+                        {selectedData &&
+                            <div className="popover absolute top-1/2 left-1/2 w-[800px]  flex justify-center items-center ">
+                                <div className="popover-content bg-white p-4 rounded-lg shadow-lg max-w-screen-md max-h-96 w-full overflow-y-auto">
+                                    <button className="close-btn absolute top-2 right-2 text-gray-500 hover:text-gray-700" onClick={() => setSelectedData(null)}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                    <h2 className="text-lg font-semibold mb-2">Details:</h2>
+                                    <ul className='w-[500px] my-1'>
+                                        {selectedData.map((item, index) => (
+                                            <li key={index} className="mb-1  my-1 flex ">
+                                                <span className="font-semibold">CCNO:</span> {item.CCNO}, <span className="font-semibold">Name:</span> {item.name}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    </React.Fragment>
+                }
+            </div>
+        </div>
     );
 };

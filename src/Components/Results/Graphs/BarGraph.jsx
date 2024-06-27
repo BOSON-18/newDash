@@ -69,7 +69,7 @@ const BarGraph = ({ divisionData, state }) => {
     <div className='bg-[#F3F5F9] flex flex-col rounded-xl my-5 gap-y-5'>
       <div className='bg-[#63b3ed] opacity-80 rounded-t-xl w-full p-4 text-center'>
         <h1 className='text-2xl font-poppins text-white'>
-          {state === "single" ? 'Division Stats' : 'Average Division Stats'}
+          {state === "single" ? 'Division Statistics' : 'Average Division Statistics'}
         </h1>
       </div>
       <div className='w-full h-full p-3'>

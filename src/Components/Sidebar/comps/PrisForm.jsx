@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DatePicker, Space } from 'antd';
 import { useForm } from 'react-hook-form';
 import { getPris } from '../../../api/operations/getPrisg';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '../../../store/slices/auth';
+import { setDivisionStats } from '../../../store/slices/attendanceSlice';
 
 const { RangePicker } = DatePicker;
 
+
 const PrisForm = () => {
     const { register, handleSubmit, setValue, watch } = useForm();
-    const { divisionList } = useSelector((state) => state.attendance);
+    let { divisionList } = useSelector((state) => state.attendance);
     const [division, setDivision] = useState(null);
+    const dispatch= useDispatch()
+
+    useEffect(() => {
+        const categoryFetch = async () => {
+          const result =divisionList;
+          divisionList.sort((a, b) => a.division.localeCompare(b.division));
+        //   dispatch(setDivisionList(result));
+          console.log(result);
+        };
+    
+        categoryFetch();
+      }, []);
 
     const onSubmit = async (data) => {
+
+        dispatch(setLoading(true))
         console.log(data);
         const lowYear = data?.yearRange[0]?.year();
         const highYear = data?.yearRange[1]?.year();
@@ -25,6 +42,10 @@ const PrisForm = () => {
 
         const result = await getPris(lowYear, highYear, data.divisionName);
         console.log(result);
+
+        dispatch(setDivisionStats(result?.data?.data))
+
+        dispatch(setLoading(false))
     };
 
     // Update the form state when the RangePicker value changes
@@ -34,12 +55,18 @@ const PrisForm = () => {
 
     return (
         <Space direction="vertical" size={12}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center justify-center gap-y-5'>
+
+                <label htmlFor='yearRange' className='text-xl'>Year Range:
                 <RangePicker
                     picker="year"
                     onChange={handleDateChange}
+                    name='yearRange'
+                    // minDate={2023}
+                    // maxDate={2024}
                 />
                 <input type="hidden" {...register("yearRange", { required: true })} />
+                </label>
 
                 <label htmlFor="division" className="text-xl">
                     Division Name:
@@ -56,7 +83,7 @@ const PrisForm = () => {
                         {divisionList?.map((division, index) => (
                             <option
                                 key={index}
-                                className="text-center"
+                                className="text-left"
                                 value={division.division}
                             >
                                 {division.division}

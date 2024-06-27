@@ -9,6 +9,7 @@ import {
   setSectionList,
   setTotalEmployees,
   setTotalPresent,
+  setOutTimeSwipes
 } from "../../../store/slices/attendanceSlice";
 import { getData } from "../../../api/operations/getData";
 import { setLoading } from "../../../store/slices/auth";
@@ -33,6 +34,9 @@ const GenericForm = () => {
     };
 
     categoryFetch();
+    const lowDate="2024-06-21";
+    const highDate="2024-06-21";
+    onSubmit({date:lowDate});
   }, []);
 
   useEffect(() => {
@@ -73,6 +77,7 @@ const GenericForm = () => {
     dispatch(setTotalEmployees(response?.Total[0]?.TotalEmployees));
     dispatch(setTotalPresent(response?.TotalPresent[0]?.TotalPresent||0));
     dispatch(setInTimeSwipes(response?.InTimeSwipes));
+    dispatch(setOutTimeSwipes(response?.OutTimeSwipes));
     dispatch(setDivisionStats(response?.DivisionStats||0));
 
     dispatch(setLoading(false))

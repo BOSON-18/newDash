@@ -13,13 +13,13 @@ const PieChart = ({TotalEmployees,TotalPresent,state}) => {
     const {loading}= useSelector((state)=>state.auth)
     const cards = [
         { title:'Total Employees', value: TotalEmployees, color: '#63b3ed',icon:<FaPeopleGroup/> ,iconColor:"#63b3ed"},
-        { title: state==="single"? 'Checked In':"Avg Present", value: TotalPresent, color: '#48bb78',icon:<AiFillCheckSquare/>,iconColor:'#48bb78' },
+        { title: state==="single"? 'Employees Presence':"Average Employees Presence", value: TotalPresent, color: '#48bb78',icon:<AiFillCheckSquare/>,iconColor:'#48bb78' },
         // { title: state==="single"?'Checked Out':"Avg Check Out\'s", value: TotalPresent, color: '#718096',icon:<RxExit/>,iconColor:'#4a5568' },
-        { title: state==="single"?'Leave/Absent':'Avg Leave', value: TotalEmployees - TotalPresent, color: '#f56565',icon:<IoIosWarning/>,iconColor:'#f56565' },
+        { title: state==="single"?'Absence/Leave':'Average Absence/Leave', value: TotalEmployees - TotalPresent, color: '#f56565',icon:<IoIosWarning/>,iconColor:'#f56565' },
       ];
 
     const chartData = {
-        labels: state==="single"? ['Total Present', 'Absent/Leave']:['Average Present',"Average Leave"],
+        labels: state==="single"? ['Total Present', 'Absence/Leave']:['Average Present',"Average Absence"],
         datasets: [
           {
             data: [Math.ceil(TotalPresent), Math.ceil(TotalEmployees - TotalPresent)],

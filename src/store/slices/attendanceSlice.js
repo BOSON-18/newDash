@@ -7,6 +7,7 @@ const attendanceSlice= createSlice({
         TotalEmployees:0,
         TotalPresent:0,
         InTimeSwipes:[],
+        OutTimeSwipes:[],
         DivisionStats:[],
         divisionList:[],
         sectionList:[{}]
@@ -21,6 +22,9 @@ const attendanceSlice= createSlice({
         setInTimeSwipes(state,actions){
             state.InTimeSwipes=actions.payload
         },
+        setOutTimeSwipes(state,actions){
+            state.OutTimeSwipes=actions.payload
+        },
         setDivisionStats(state,actions){
             state.DivisionStats=actions.payload
         },
@@ -33,5 +37,5 @@ const attendanceSlice= createSlice({
     }
 })
 
-export const{setDivisionStats,setInTimeSwipes,setTotalEmployees,setTotalPresent,setDivisionList,setSectionList}= attendanceSlice.actions
+export const{setDivisionStats,setInTimeSwipes,setTotalEmployees,setTotalPresent,setDivisionList,setSectionList,setOutTimeSwipes}= attendanceSlice.actions
 export default attendanceSlice.reducer

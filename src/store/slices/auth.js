@@ -8,7 +8,8 @@ const authSlice= createSlice({
         user:null,
         token:localStorage.getItem("token")?(localStorage.getItem("token")):(null),
         loading:false,
-        searchType:"single"
+        searchType:"single",
+        formType:'custom'
         
     },
     reducers:{
@@ -23,9 +24,12 @@ const authSlice= createSlice({
         },
         setSearchType(state,actions){
             state.searchType=actions.payload;
+        },
+        setFormType(state,actions){
+            state.formType=actions.payload
         }
     }
 })
 
-export const {setLoading,setToken,setUser,setSearchType}=authSlice.actions;
+export const {setLoading,setToken,setUser,setSearchType,setFormType}=authSlice.actions;
 export default authSlice.reducer
