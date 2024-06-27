@@ -160,8 +160,36 @@ exports.getData = async (req, res) => {
             {
               $project: {
                 _id: 0,
-
+                "attendance.CCNO":1,
                 "attendance.inTime": 1,
+                "name":1
+              },
+            },
+          ],
+          OutTimeSwipes: [
+            { $unwind: "$attendance" },
+            {
+              $match: {
+                $and: [
+                  {
+                    "attendance.timestamp": {
+                      $gte: lowDate,
+                    },
+                  },
+                  {
+                    "attendance.timestamp": {
+                      $lte: highDate,
+                    },
+                  },
+                ],
+              },
+            },
+            {
+              $project: {
+                _id: 0,
+                "attendance.CCNO":1,
+                "attendance.outTime": 1,
+                "name":1
               },
             },
           ],
@@ -173,10 +201,14 @@ exports.getData = async (req, res) => {
 
     console.log("Printing result: ", result);
     const inTimeArr = result[0].InTimeSwipes;
+    const outTimeArr= result[0].OutTimeSwipes;
     console.log("Destructiong", inTimeArr);
-    const timeRangeMap = getRangeMap(inTimeArr, range);
+    let timeRangeMap = getRangeMap(inTimeArr, range);
     console.log("timeRange map", timeRangeMap);
     result[0].InTimeSwipes = timeRangeMap;
+    timeRangeMap=getRangeMap(outTimeArr,range);
+    console.log("OutSwipes",timeRangeMap)
+    result[0].OutTimeSwipes=timeRangeMap;
 
     res.status(200).json({
       success: true,

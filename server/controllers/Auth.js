@@ -1,3 +1,4 @@
+const { message } = require("antd");
 const Users = require("../models/Users");
 const bcrypt=require("bcryptjs")
 const jwt= require("jsonwebtoken")
@@ -56,3 +57,21 @@ exports.login = async (req, res) => {
     });
   }
 };
+
+
+// exports.logout=async(req,res)=>{
+
+//   try{
+
+
+
+
+//   }catch(error){
+
+//     console.log(error);
+//     return res.status(500).json({
+//       success:false,
+//       message:"Inernal Server Error"
+//     })
+//   }
+// }

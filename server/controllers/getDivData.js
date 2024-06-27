@@ -48,7 +48,7 @@ exports.getDivData = async (req, res) => {
             attendance: 1,
             category: 1,
             // _id: 1
-            // name: 1
+             name: 1
             
           }
         },
@@ -122,6 +122,8 @@ exports.getDivData = async (req, res) => {
               {
                 $project: {
                   _id: 0,
+                  "name":1,
+                  "attendance.CCNO":1,
                   "attendance.inTime": 1
                 }
               }
@@ -158,7 +160,34 @@ exports.getDivData = async (req, res) => {
               {
                 $sort: { TotalPresent: -1 }
               }
-            ]
+            ],
+            OutTimeSwipes: [
+              { $unwind: "$attendance" },
+              {
+                $match: {
+                  $and: [
+                    {
+                      "attendance.timestamp": {
+                        $gte: lowDate,
+                      },
+                    },
+                    {
+                      "attendance.timestamp": {
+                        $lte: highDate,
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                $project: {
+                  _id: 0,
+                  "attendance.CCNO":1,
+                  "attendance.outTime": 1,
+                  "name":1
+                },
+              },
+            ],
           }
         }
       ]
@@ -167,10 +196,13 @@ exports.getDivData = async (req, res) => {
 
     console.log("Returning Division Search Data-> ", result);
     const inTimeArr = result[0].InTimeSwipes;
+    const outTimeArr= result[0].OutTimeSwipes;
     console.log("Destructiong", inTimeArr);
-    const timeRangeMap = getRangeMap(inTimeArr, range);
+    let timeRangeMap = getRangeMap(inTimeArr, range);
     console.log("timeRange map", timeRangeMap);
     result[0].InTimeSwipes = timeRangeMap;
+    timeRangeMap=getRangeMap(outTimeArr,range);
+    result[0].OutTimeSwipes=timeRangeMap;
 
     return res.status(200).json({
       success: true,

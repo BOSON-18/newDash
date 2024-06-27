@@ -2,7 +2,7 @@ const mongoose=require("mongoose")
 
 exports.connectDB=async()=>{
     try{
-        mongoose.connect("mongodb+srv://deeshankbatra663:Cleverfox18@cluster0.bkfjew1.mongodb.net/E_DATA",{
+        mongoose.connect("mongodb://10.10.18.21:27017/?directConnection=true&serverSelectionTimeoutMS=10000&appName=mongosh+2.2.6/test",{
             useNewUrlParser:true,
             useUnifiedTopology:true
         })
