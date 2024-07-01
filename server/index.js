@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.use(
     cors({
-        origin:"http://localhost:5173",
+        origin:"https://internship-project-demo.vercel.app",
         credentials:true
     })
 )

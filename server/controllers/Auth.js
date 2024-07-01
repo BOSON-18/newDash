@@ -1,6 +1,8 @@
-const { message } = require("antd");
+
 const Users = require("../models/Users");
 const bcrypt=require("bcryptjs")
+const dotenv=require("dotenv")
+dotenv.config()
 const jwt= require("jsonwebtoken")
 exports.login = async (req, res) => {
   try {
@@ -38,7 +40,7 @@ exports.login = async (req, res) => {
 
     // now creating jwt token fot the session
 
-    const token= await jwt.sign({loginId},"clumsy",{expiresIn:3600})//clumsy->jwtSecret expiresIn->1 hr
+    const token= await jwt.sign({loginId},process.env.JWT_SECRET,{expiresIn:3600})//clumsy->jwtSecret expiresIn->1 hr
 
     user.token=token;
 

@@ -1,8 +1,10 @@
 const mongoose=require("mongoose")
+const dotenv=require("dotenv")
+dotenv.config()
 
 exports.connectDB=async()=>{
     try{
-        mongoose.connect("mongodb://10.10.18.21:27017/?directConnection=true&serverSelectionTimeoutMS=10000&appName=mongosh+2.2.6/test",{
+        mongoose.connect(process.env.MONGO_URI,{
             useNewUrlParser:true,
             useUnifiedTopology:true
         })
